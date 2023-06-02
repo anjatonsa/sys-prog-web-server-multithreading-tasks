@@ -146,9 +146,11 @@ namespace DrugiProjekat
         {
 
             string path = Directory.GetFiles(root, imageName, SearchOption.AllDirectories).FirstOrDefault();
+
             if (path != null)
             {
                 byte[] buf;
+
                 //provera da li je u kesu
 
                 if (ImageCache.GetImageFromCache(imageName, out buf))
@@ -160,7 +162,6 @@ namespace DrugiProjekat
                     buf = File.ReadAllBytes(path);
                     ImageCache.AddImageToCache(imageName, buf);
                     Console.WriteLine("Requested image is not in cache. Adding it to cache.");
-
                 }
 
                 res.StatusCode = (int)HttpStatusCode.OK;
@@ -173,7 +174,7 @@ namespace DrugiProjekat
             }
             else
             {
-                HandleError(res, "notfound");
+                await HandleError(res, "notfound");
             }
 
         }
